@@ -23,6 +23,7 @@ interface Shelter {
   status: string;
   is_contact_done: boolean;
   admin_contacter?: string; // Adiciona o campo opcional
+  lastname: string
 }
 
 // Define props for ShelterCard
@@ -38,7 +39,7 @@ const ShelterCard: React.FC<ShelterCardProps> = ({ shelter }) => {
       <Link href={`shelters/${shelter.id}`}>
         <div className="p-6">
           <h3 className="font-extrabold text-xl text-gray-800 mb-3">
-            {shelter.name}
+            {shelter.name} {shelter.lastname}
           </h3>
           <div className="space-y-3">
             <div className="flex items-center text-sm text-gray-600">
@@ -49,18 +50,30 @@ const ShelterCard: React.FC<ShelterCardProps> = ({ shelter }) => {
               <FaPhone className="mr-2 w-5 h-5 text-indigo-600" />
               <span>{shelter.phone}</span>
             </div>
+
+            {/*
+            
             <div className="flex items-center text-sm text-gray-600">
               <FaCity className="mr-2 w-5 h-5 text-indigo-600" />
               <span>{shelter.city}</span>
             </div>
+            */}
+
+            {/*
+            
             <div className="flex items-center text-sm text-gray-600">
               <FaMap className="mr-2 w-5 h-5 text-indigo-600" />
               <span>{shelter.address}</span>
             </div>
+            */}
+
+            {/*
+            
             <div className="flex items-center text-sm text-gray-600">
               <FaPaw className="mr-2 w-5 h-5 text-indigo-600" />
               <span>Capacidade: {shelter.capacity} animais</span>
             </div>
+            */}
             <div className="flex items-center text-sm">
               {shelter.is_contact_done ? (
                 <>

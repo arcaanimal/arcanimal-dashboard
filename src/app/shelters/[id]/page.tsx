@@ -44,17 +44,29 @@ const ShelterDetailsPage = () => {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">{shelter.name}</h1>
+
+      {/*
+      
       <p className="text-gray-700 mb-2">
         📍 {shelter.address}, {shelter.city}
       </p>
+      */}
       <p className="text-gray-700 mb-2">📞 {shelter.phone}</p>
       <p className="text-gray-700 mb-2">📧 {shelter.email}</p>
+
+      {/*
+      
       <p className="text-gray-700 mb-2">
         🐾 Capacidade: {shelter.capacity} animais
       </p>
+      */}
+
+      {/*
+      
       <p className="text-gray-700 mb-6">
-        📅 Cadastrado em: {new Date(shelter.createdAt).toLocaleDateString()}
+        📅 Cadastrado em: {shelter.createdAt}
       </p>
+      */}
 
       <div className="bg-gray-50 p-6 rounded-xl shadow-inner mb-6">
         <h2 className="text-xl font-semibold text-indigo-700 mb-2">
@@ -76,7 +88,7 @@ const ShelterDetailsPage = () => {
             : "Marcar como contatado"}
         </button>
         <a
-          href={`https://wa.me/${shelter?.whatsapp}`}
+          href={`https://wa.me/${shelter?.phone}`}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-xl shadow"
@@ -88,7 +100,9 @@ const ShelterDetailsPage = () => {
       {isAlreadyContacted && (
         <p className="mt-4 text-sm text-gray-600">
           Contato realizado por:{" "}
-          <span className="font-medium">{user?.name || shelter.admin_contacter}</span>
+          <span className="font-medium">
+            {user?.name || shelter.admin_contacter}
+          </span>
         </p>
       )}
     </div>
