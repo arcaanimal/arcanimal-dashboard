@@ -16,7 +16,7 @@ import { useShelters } from "@/app/hooks/shelters/useSheltersCount";
 import { useActivities } from "@/app/hooks/activity/useActivities";
 import { useContactDoneDashboard } from "@/app/hooks/contacts/useContactDoneDashboard";
 import { useGetAdminsCount } from "@/app/hooks/admins/useGetAdminsCount";
-
+import { useAdoptersCount } from "@/app/hooks/adopters/useAdoptersCount";
 // Stub for AdoptionChart (replace with actual component if available)
 const AdoptionChart: React.FC = () => {
   return (
@@ -150,6 +150,8 @@ const Charts: React.FC = () => {
   const { data, isLoading, error } = useShelters();
   const {data: contact_count, isLoading: contact_loading, error: contact_error} = useContactDoneDashboard();
   const {data: admin_count, isLoading: admin_loading, error: admin_error} = useGetAdminsCount();
+  const {data: adopters_count, isLoading: adopters_loading, error: adopters_error} = useAdoptersCount();
+
 
   console.log(data?.total);
   console.log(admin_count?.count)
@@ -189,7 +191,7 @@ const Charts: React.FC = () => {
         }
         <SummaryCard
           title="Adotantes"
-          count={0}
+          count={adopters_loading ? 0 : adopters_count?.total}
           icon={FaUsers}
           color="yellow"
           trend="down"
