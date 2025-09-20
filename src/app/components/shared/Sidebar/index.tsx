@@ -1,16 +1,21 @@
 'use client'
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaTachometerAlt, FaHome, FaPaw, FaUsers, FaHandHoldingUsd, FaChartBar, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa';
+import { FaTachometerAlt, FaHome, FaPaw, FaUsers, FaHandHoldingUsd, FaChartBar, FaCog, FaSignOutAlt, FaBars, FaCalculator, FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import { useAuth } from '../../AuthProvider';
 import { useRouter } from 'next/navigation';
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAccountingOpen, setIsAccountingOpen] = useState(false);
   const{logout} = useAuth() 
   const router = useRouter()
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleAccounting = () => {
+    setIsAccountingOpen(!isAccountingOpen);
   };
 
 
@@ -75,6 +80,52 @@ const Sidebar: React.FC = () => {
                 <FaUsers className="w-5 h-5 text-indigo-300 transition duration-75" />
                 <span className="flex-1 ml-3 whitespace-nowrap">Admins</span>
               </Link>
+            </li>
+
+            {/* Menu Contabilidade */}
+            <li>
+              <button
+                onClick={toggleAccounting}
+                className="flex items-center p-2 w-full text-white rounded-lg hover:bg-indigo-700"
+              >
+                <FaCalculator className="w-5 h-5 text-indigo-300 transition duration-75" />
+                <span className="flex-1 ml-3 whitespace-nowrap text-left">Contabilidade</span>
+                {isAccountingOpen ? (
+                  <FaChevronDown className="w-4 h-4 text-indigo-300" />
+                ) : (
+                  <FaChevronRight className="w-4 h-4 text-indigo-300" />
+                )}
+              </button>
+              
+              {/* Submenu Contabilidade */}
+              {isAccountingOpen && (
+                <ul className="ml-6 mt-2 space-y-1">
+                  <li>
+                    <Link
+                      href="/contability/registerNote"
+                      className="flex items-center p-2 text-white rounded-lg hover:bg-indigo-700 text-sm"
+                    >
+                      <span className="ml-3">Registrar NF's</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/contability/reporting"
+                      className="flex items-center p-2 text-white rounded-lg hover:bg-indigo-700 text-sm"
+                    >
+                      <span className="ml-3">Prestação de Contas</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/contability/searchNote"
+                      className="flex items-center p-2 text-white rounded-lg hover:bg-indigo-700 text-sm"
+                    >
+                      <span className="ml-3">Pesquisar NF</span>
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </li>
 
             <li>
