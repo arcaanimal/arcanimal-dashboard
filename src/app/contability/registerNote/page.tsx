@@ -177,120 +177,178 @@ function Page() {
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            {/* Formulário - 2/3 da tela */}
-                            <div className="lg:col-span-2 space-y-6">
-                                {/* Linha 1: Valor e Data */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                            <FaDollarSign className="w-4 h-4 mr-2 text-indigo-600" />
-                                            Valor
-                                        </label>
-                                        <input
-                                            type="number"
-                                            step="0.01"
-                                            name="valor"
-                                            value={formData.valor}
-                                            onChange={handleInputChange}
-                                            placeholder="0,00"
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                            required
-                                        />
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Formulário principal */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                {/* Campos do formulário - 2/3 da tela */}
+                                <div className="lg:col-span-2 space-y-6">
+                                    {/* Linha 1: Valor e Data */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                                <FaDollarSign className="w-4 h-4 mr-2 text-indigo-600" />
+                                                Valor
+                                            </label>
+                                            <input
+                                                type="number"
+                                                step="0.01"
+                                                name="valor"
+                                                value={formData.valor}
+                                                onChange={handleInputChange}
+                                                placeholder="0,00"
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                                <FaCalendarAlt className="w-4 h-4 mr-2 text-indigo-600" />
+                                                Data da Ocorrência
+                                            </label>
+                                            <input
+                                                type="datetime-local"
+                                                name="dataOcorrencia"
+                                                value={formData.dataOcorrencia}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                required
+                                            />
+                                        </div>
                                     </div>
 
-                                    <div>
-                                        <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                            <FaCalendarAlt className="w-4 h-4 mr-2 text-indigo-600" />
-                                            Data da Ocorrência
-                                        </label>
-                                        <input
-                                            type="datetime-local"
-                                            name="dataOcorrencia"
-                                            value={formData.dataOcorrencia}
-                                            onChange={handleInputChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                            required
-                                        />
-                                    </div>
-                                </div>
+                                    {/* Linha 2: Categoria e Responsável */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                                <FaTag className="w-4 h-4 mr-2 text-indigo-600" />
+                                                Categoria
+                                            </label>
+                                            <select
+                                                name="categoria"
+                                                value={formData.categoria}
+                                                onChange={handleInputChange}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                required
+                                            >
+                                                <option value="">Selecione uma categoria</option>
+                                                {categorias.map(cat => (
+                                                    <option key={cat} value={cat} className="capitalize">{cat}</option>
+                                                ))}
+                                            </select>
+                                        </div>
 
-                                {/* Linha 2: Categoria e Responsável */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                                <FaUser className="w-4 h-4 mr-2 text-indigo-600" />
+                                                Responsável
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="responsavel"
+                                                value={formData.responsavel}
+                                                placeholder="Nome do responsável"
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed focus:outline-none"
+                                                disabled
+                                                readOnly
+                                            />
+                                            <p className="text-xs text-gray-500 mt-1">
+                                                Este campo é preenchido automaticamente com seu nome
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Linha 3: Origem/Destino */}
                                     <div>
                                         <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                                             <FaTag className="w-4 h-4 mr-2 text-indigo-600" />
-                                            Categoria
-                                        </label>
-                                        <select
-                                            name="categoria"
-                                            value={formData.categoria}
-                                            onChange={handleInputChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                            required
-                                        >
-                                            <option value="">Selecione uma categoria</option>
-                                            {categorias.map(cat => (
-                                                <option key={cat} value={cat} className="capitalize">{cat}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                            <FaUser className="w-4 h-4 mr-2 text-indigo-600" />
-                                            Responsável
+                                            {tipoNota === 'saida' ? 'Destino' : 'Origem'}
                                         </label>
                                         <input
                                             type="text"
-                                            name="responsavel"
-                                            value={formData.responsavel}
-                                            placeholder="Nome do responsável"
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed focus:outline-none"
-                                            disabled
-                                            readOnly
+                                            name="origemDestino"
+                                            value={formData.origemDestino}
+                                            onChange={handleInputChange}
+                                            placeholder={tipoNota === 'saida' ? 'Para onde foi o dinheiro?' : 'De onde veio o dinheiro?'}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            required
                                         />
-                                        <p className="text-xs text-gray-500 mt-1">
-                                            Este campo é preenchido automaticamente com seu nome
-                                        </p>
+                                    </div>
+
+                                    {/* Linha 4: Descrição */}
+                                    <div>
+                                        <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                            <FaFileAlt className="w-4 h-4 mr-2 text-indigo-600" />
+                                            Descrição
+                                        </label>
+                                        <textarea
+                                            name="descricao"
+                                            value={formData.descricao}
+                                            onChange={handleInputChange}
+                                            placeholder="Descreva os detalhes da transação..."
+                                            rows={4}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            required
+                                        />
                                     </div>
                                 </div>
 
-                                {/* Linha 3: Origem/Destino */}
-                                <div>
-                                    <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                        <FaTag className="w-4 h-4 mr-2 text-indigo-600" />
-                                        {tipoNota === 'saida' ? 'Destino' : 'Origem'}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="origemDestino"
-                                        value={formData.origemDestino}
-                                        onChange={handleInputChange}
-                                        placeholder={tipoNota === 'saida' ? 'Para onde foi o dinheiro?' : 'De onde veio o dinheiro?'}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        required
-                                    />
-                                </div>
+                                {/* Upload de comprovante - 1/3 da tela */}
+                                <div className="lg:col-span-1">
+                                    <div className="bg-gray-50 rounded-lg p-6">
+                                        <label className="flex items-center text-sm font-medium text-gray-700 mb-4">
+                                            <FaUpload className="w-4 h-4 mr-2 text-indigo-600" />
+                                            Comprovante da Nota
+                                        </label>
 
-                                {/* Linha 4: Descrição */}
-                                <div>
-                                    <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                        <FaFileAlt className="w-4 h-4 mr-2 text-indigo-600" />
-                                        Descrição
-                                    </label>
-                                    <textarea
-                                        name="descricao"
-                                        value={formData.descricao}
-                                        onChange={handleInputChange}
-                                        placeholder="Descreva os detalhes da transação..."
-                                        rows={4}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                        required
-                                    />
+                                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                            {previewUrl ? (
+                                                <div className="space-y-4">
+                                                    <img 
+                                                        src={previewUrl} 
+                                                        alt="Preview" 
+                                                        className="max-w-full h-48 object-contain mx-auto rounded"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setPreviewUrl('');
+                                                            setFormData(prev => ({ ...prev, comprovante: null }));
+                                                        }}
+                                                        className="text-red-600 hover:text-red-800 text-sm"
+                                                    >
+                                                        Remover imagem
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <FaUpload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                                                    <p className="text-gray-600 mb-4">
+                                                        Clique para fazer upload da nota fiscal
+                                                    </p>
+                                                </div>
+                                            )}
+                                            
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleFileChange}
+                                                className="hidden"
+                                                id="comprovante"
+                                            />
+                                            <label
+                                                htmlFor="comprovante"
+                                                className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 cursor-pointer transition-colors"
+                                            >
+                                                {previewUrl ? 'Alterar imagem' : 'Selecionar arquivo'}
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
 
-                                {/* Botão de submit */}
+                            {/* Botão de submit - agora fora do grid e depois do comprovante */}
+                            <div className="mt-6">
                                 <button
                                     type="submit"
                                     className={`w-full px-6 py-3 text-white font-semibold rounded-lg transition-colors ${
@@ -301,59 +359,6 @@ function Page() {
                                 >
                                     {tipoNota === 'saida' ? 'Cadastrar Saída' : 'Cadastrar Entrada'}
                                 </button>
-                            </div>
-
-                            {/* Upload de comprovante - 1/3 da tela */}
-                            <div className="lg:col-span-1">
-                                <div className="bg-gray-50 rounded-lg p-6">
-                                    <label className="flex items-center text-sm font-medium text-gray-700 mb-4">
-                                        <FaUpload className="w-4 h-4 mr-2 text-indigo-600" />
-                                        Comprovante da Nota
-                                    </label>
-
-                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                                        {previewUrl ? (
-                                            <div className="space-y-4">
-                                                <img 
-                                                    src={previewUrl} 
-                                                    alt="Preview" 
-                                                    className="max-w-full h-48 object-contain mx-auto rounded"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setPreviewUrl('');
-                                                        setFormData(prev => ({ ...prev, comprovante: null }));
-                                                    }}
-                                                    className="text-red-600 hover:text-red-800 text-sm"
-                                                >
-                                                    Remover imagem
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <FaUpload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                                                <p className="text-gray-600 mb-4">
-                                                    Clique para fazer upload da nota fiscal
-                                                </p>
-                                            </div>
-                                        )}
-                                        
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleFileChange}
-                                            className="hidden"
-                                            id="comprovante"
-                                        />
-                                        <label
-                                            htmlFor="comprovante"
-                                            className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 cursor-pointer transition-colors"
-                                        >
-                                            {previewUrl ? 'Alterar imagem' : 'Selecionar arquivo'}
-                                        </label>
-                                    </div>
-                                </div>
                             </div>
                         </form>
                     </div>

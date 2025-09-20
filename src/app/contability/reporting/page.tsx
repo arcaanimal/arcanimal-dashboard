@@ -279,127 +279,129 @@ function Page() {
                     </div>
                 </div>
 
-                {/* Gráficos */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Pie Chart Entradas */}
-                    <div className="bg-white rounded-lg shadow-md p-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                            <FaChartPie className="w-5 h-5 mr-2 text-green-600" />
-                            Distribuição de Entradas
-                        </h3>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie
-                                    data={pieDataEntrada}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={false}
-                                    label={renderCustomizedLabel}
-                                    outerRadius={80}
-                                    fill="#8884d8"
-                                    dataKey="value"
-                                >
-                                    {pieDataEntrada.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS_ENTRADA[index % COLORS_ENTRADA.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                                <Legend />
-                            </PieChart>
-                        </ResponsiveContainer>
-                        <div className="mt-4 space-y-2">
-                            {pieDataEntrada.map((item, index) => (
-                                <div key={item.name} className="flex justify-between items-center p-2 bg-green-50 rounded">
-                                    <div className="flex items-center">
-                                        <div 
-                                            className="w-4 h-4 rounded mr-2" 
-                                            style={{ backgroundColor: COLORS_ENTRADA[index % COLORS_ENTRADA.length] }}
-                                        ></div>
-                                        <span className="font-medium text-gray-700">{item.name}</span>
+                {/* Gráficos - Ocultos no mobile */}
+                <div className="hidden lg:block">
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                        {/* Pie Chart Entradas */}
+                        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <FaChartPie className="w-5 h-5 mr-2 text-green-600" />
+                                Distribuição de Entradas
+                            </h3>
+                            <ResponsiveContainer width="100%" height={250}>
+                                <PieChart>
+                                    <Pie
+                                        data={pieDataEntrada}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={renderCustomizedLabel}
+                                        outerRadius={70}
+                                        fill="#8884d8"
+                                        dataKey="value"
+                                    >
+                                        {pieDataEntrada.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS_ENTRADA[index % COLORS_ENTRADA.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                                    <Legend />
+                                </PieChart>
+                            </ResponsiveContainer>
+                            <div className="mt-4 space-y-2">
+                                {pieDataEntrada.map((item, index) => (
+                                    <div key={item.name} className="flex justify-between items-center p-2 bg-green-50 rounded text-sm">
+                                        <div className="flex items-center">
+                                            <div 
+                                                className="w-3 h-3 rounded mr-2 flex-shrink-0" 
+                                                style={{ backgroundColor: COLORS_ENTRADA[index % COLORS_ENTRADA.length] }}
+                                            ></div>
+                                            <span className="font-medium text-gray-700 truncate">{item.name}</span>
+                                        </div>
+                                        <span className="text-green-600 font-bold ml-2">{item.formatted}</span>
                                     </div>
-                                    <span className="text-green-600 font-bold">{item.formatted}</span>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Pie Chart Saídas */}
+                        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <FaChartPie className="w-5 h-5 mr-2 text-red-600" />
+                                Distribuição de Saídas
+                            </h3>
+                            <ResponsiveContainer width="100%" height={250}>
+                                <PieChart>
+                                    <Pie
+                                        data={pieDataSaida}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={renderCustomizedLabel}
+                                        outerRadius={70}
+                                        fill="#8884d8"
+                                        dataKey="value"
+                                    >
+                                        {pieDataSaida.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS_SAIDA[index % COLORS_SAIDA.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                                    <Legend />
+                                </PieChart>
+                            </ResponsiveContainer>
+                            <div className="mt-4 space-y-2">
+                                {pieDataSaida.map((item, index) => (
+                                    <div key={item.name} className="flex justify-between items-center p-2 bg-red-50 rounded text-sm">
+                                        <div className="flex items-center">
+                                            <div 
+                                                className="w-3 h-3 rounded mr-2 flex-shrink-0" 
+                                                style={{ backgroundColor: COLORS_SAIDA[index % COLORS_SAIDA.length] }}
+                                            ></div>
+                                            <span className="font-medium text-gray-700 truncate">{item.name}</span>
+                                        </div>
+                                        <span className="text-red-600 font-bold ml-2">{item.formatted}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Pie Chart Saídas */}
-                    <div className="bg-white rounded-lg shadow-md p-6">
+                    {/* Gráfico de Barras */}
+                    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mt-6">
                         <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                            <FaChartPie className="w-5 h-5 mr-2 text-red-600" />
-                            Distribuição de Saídas
+                            <FaChartBar className="w-5 h-5 mr-2 text-indigo-600" />
+                            Movimentação Mensal - Entradas vs Saídas
                         </h3>
                         <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie
-                                    data={pieDataSaida}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={false}
-                                    label={renderCustomizedLabel}
-                                    outerRadius={80}
-                                    fill="#8884d8"
-                                    dataKey="value"
-                                >
-                                    {pieDataSaida.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS_SAIDA[index % COLORS_SAIDA.length]} />
-                                    ))}
-                                </Pie>
+                            <BarChart
+                                data={barData}
+                                margin={{
+                                    top: 20,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="mes" />
+                                <YAxis tickFormatter={(value) => formatCurrency(value)} />
                                 <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                                 <Legend />
-                            </PieChart>
+                                <Bar dataKey="entrada" fill="#10B981" name="Entradas" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="saida" fill="#EF4444" name="Saídas" radius={[4, 4, 0, 0]} />
+                            </BarChart>
                         </ResponsiveContainer>
-                        <div className="mt-4 space-y-2">
-                            {pieDataSaida.map((item, index) => (
-                                <div key={item.name} className="flex justify-between items-center p-2 bg-red-50 rounded">
-                                    <div className="flex items-center">
-                                        <div 
-                                            className="w-4 h-4 rounded mr-2" 
-                                            style={{ backgroundColor: COLORS_SAIDA[index % COLORS_SAIDA.length] }}
-                                        ></div>
-                                        <span className="font-medium text-gray-700">{item.name}</span>
-                                    </div>
-                                    <span className="text-red-600 font-bold">{item.formatted}</span>
-                                </div>
-                            ))}
-                        </div>
                     </div>
-                </div>
-
-                {/* Gráfico de Barras */}
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                        <FaChartBar className="w-5 h-5 mr-2 text-indigo-600" />
-                        Movimentação Mensal - Entradas vs Saídas
-                    </h3>
-                    <ResponsiveContainer width="100%" height={400}>
-                        <BarChart
-                            data={barData}
-                            margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                            }}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="mes" />
-                            <YAxis tickFormatter={(value) => formatCurrency(value)} />
-                            <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                            <Legend />
-                            <Bar dataKey="entrada" fill="#10B981" name="Entradas" radius={[4, 4, 0, 0]} />
-                            <Bar dataKey="saida" fill="#EF4444" name="Saídas" radius={[4, 4, 0, 0]} />
-                        </BarChart>
-                    </ResponsiveContainer>
                 </div>
 
                 {/* Filtros */}
-                <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <FaFilter className="w-5 h-5 mr-2 text-indigo-600" />
                         Filtros
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
                             <select
@@ -533,17 +535,17 @@ function Page() {
                 </div>
 
                 {/* Botões de Exportação */}
-                <div className="flex justify-center space-x-4">
+                <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <button
                         onClick={handleExportPDF}
-                        className="flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        className="flex items-center justify-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                     >
                         <FaDownload className="w-4 h-4 mr-2" />
                         Salvar PDF
                     </button>
                     <button
                         onClick={handleExportCSV}
-                        className="flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        className="flex items-center justify-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                     >
                         <FaDownload className="w-4 h-4 mr-2" />
                         Salvar CSV

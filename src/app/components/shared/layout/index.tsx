@@ -34,8 +34,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
-      {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md flex-shrink-0">
+      {/* Sidebar - Hidden on mobile, visible on desktop */}
+      <div className="hidden sm:block w-64 bg-white shadow-md flex-shrink-0">
         <Sidebar />
       </div>
 
@@ -44,6 +44,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Header */}
         <header className="bg-white shadow-sm">
           <div className="px-6 py-4 flex items-center justify-between">
+            {/* Mobile menu button */}
+            <div className="sm:hidden">
+              <Sidebar />
+            </div>
             <Link href="/dashboard">
               <h1 className="text-2xl font-bold text-gray-800">Arca Dashboard</h1>
             </Link>
