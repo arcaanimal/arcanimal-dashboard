@@ -147,31 +147,28 @@ function Page() {
         alert("Funcionalidade de exportar PDF será implementada");
     };
 
-    const handleExportCSV = () => {
-        const headers = ["ID", "Tipo", "Valor", "Categoria", "Descrição", "Data", "Responsável", "Origem/Destino"];
-        const csvContent = [
-            headers.join(","),
-            ...dadosFiltrados.map(item => [
-                item.id,
-                item.tipo,
-                item.valor,
-                item.categoria,
-                `"${item.descricao}"`,
-                item.dataRegistro,
-                `"${item.responsavel}"`,
-                `"${item.origemDestino}"`
-            ].join(","))
-        ].join("\n");
-
-        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "relatorio_notas_fiscais.csv");
-        link.style.visibility = "hidden";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const handleExportExcel = async () => {
+        try {
+            const response = await fetch('/api/contability/generate-csv-report');
+            
+            if (!response.ok) {
+                throw new Error('Erro ao gerar relatório Excel');
+            }
+            
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `relatorio_financeiro_${new Date().toISOString().split('T')[0]}.xlsx`;
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Erro ao baixar Excel:', error);
+            alert('Erro ao gerar relatório Excel. Tente novamente.');
+        }
     };
 
     // Dados para os gráficos
@@ -544,11 +541,11 @@ function Page() {
                         Salvar PDF
                     </button>
                     <button
-                        onClick={handleExportCSV}
+                        onClick={handleExportExcel}
                         className="flex items-center justify-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                     >
                         <FaDownload className="w-4 h-4 mr-2" />
-                        Salvar CSV
+                        Salvar Excel
                     </button>
                 </div>
             </div>
