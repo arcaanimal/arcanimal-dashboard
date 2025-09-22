@@ -29,10 +29,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    // Atualizar sessão (24h a partir de agora)
-    const sessionExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    // Atualizar sessão (24h a partir de agora) - Horário de Brasília (UTC-3)
+    const now = new Date();
+    const brasiliaOffset = -3 * 60; // UTC-3 em minutos
+    const brasiliaTime = new Date(now.getTime() + (brasiliaOffset * 60 * 1000));
+    const sessionExpiresAt = new Date(brasiliaTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
+
+    console.log('Horário atual Brasília:', brasiliaTime.toISOString());
+    console.log('Sessão expira em:', sessionExpiresAt);
+    
     await updateDoc(doc(db, 'users', userDoc.id), {
-      session: sessionExpiresAt
+      session_expires_at: sessionExpiresAt // Corrigir nome do campo
     });
 
     // Retornar dados do usuário
@@ -41,6 +48,7 @@ export async function POST(request: Request) {
         id: userDoc.id,
         email: userData.email,
         name: userData.name,
+        role: userData.role, // Adicionar role aqui
         session_expires_at: sessionExpiresAt
       }
     }, { status: 200 });

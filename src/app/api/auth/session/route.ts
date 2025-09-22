@@ -28,6 +28,7 @@ export async function POST(request: Request) {
         id: userDoc.id,
         email: userData.email,
         name: userData.name,
+        role: userData.role, // Adicionar role aqui
         session_expires_at: userData.session_expires_at,
       },
     }, { status: 200 });

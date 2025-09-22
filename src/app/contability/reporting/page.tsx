@@ -143,8 +143,28 @@ function Page() {
         return new Date(dateString).toLocaleDateString('pt-BR');
     };
 
-    const handleExportPDF = () => {
-        alert("Funcionalidade de exportar PDF será implementada");
+    const handleExportPDF = async () => {
+        try {
+            const response = await fetch('/api/contability/generate-pdf-report');
+            
+            if (!response.ok) {
+                throw new Error('Erro ao gerar relatório PDF');
+            }
+            
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `relatorio_financeiro_${new Date().toISOString().split('T')[0]}.pdf`;
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Erro ao baixar PDF:', error);
+            alert('Erro ao gerar relatório PDF. Tente novamente.');
+        }
     };
 
     const handleExportExcel = async () => {

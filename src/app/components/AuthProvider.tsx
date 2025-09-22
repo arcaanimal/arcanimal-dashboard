@@ -21,6 +21,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const minimalUser = {
         email: user.email,
         name: user.name,
+        role: user.role, // Adicionar role aqui
       };
       localStorage.setItem('user', JSON.stringify(minimalUser));
     } else {
@@ -39,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const savedUser = localStorage.getItem('user');
 
         if (savedUser) {
-          const parsedUser = JSON.parse(savedUser) as Pick<User, 'email' | 'name'>;
+          const parsedUser = JSON.parse(savedUser) as Pick<User, 'email' | 'name' | 'role'>;
 
           // Aqui você pode consultar no backend para pegar informações atualizadas
           const response = await fetch('/api/auth/session', {
