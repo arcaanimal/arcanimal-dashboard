@@ -5,10 +5,10 @@ import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
 import { checkAdminSession } from '@/lib/checkAdminSession';
 
 // GET all shelters
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse> {
   try {
     const { authorized, response } = await checkAdminSession(request);
-    if (!authorized) return response;
+    if (!authorized) return response!;
 
     const sheltersSnapshot = await getDocs(collection(db, 'shelters'));
     const shelters = sheltersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -20,10 +20,10 @@ export async function GET(request: Request) {
 }
 
 // POST create a new shelter
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse> {
   try {
     const { authorized, response } = await checkAdminSession(request);
-    if (!authorized) return response;
+    if (!authorized) return response!;
 
     const data = await request.json();
     const docRef = doc(db, 'shelters', data.id);

@@ -4,18 +4,22 @@ import { db } from '@/lib/firebase';
 import { doc, updateDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { checkAdminSession } from '@/lib/checkAdminSession'; // Importa a verificação
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+export async function POST(
+  request: Request, 
+  { params }: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
   const { authorized, response } = await checkAdminSession(request);
   if (!authorized) {
-    return response;
+    return response!;
   }
 
   try {
     const body = await request.json();
     const { admin_contacter } = body;
+    const { id } = await params;
 
     // Atualizar o shelter
-    const shelterRef = doc(db, 'shelters', params.id);
+    const shelterRef = doc(db, 'shelters', id);
     await updateDoc(shelterRef, {
       is_contact_done: true,
       admin_contacter,
@@ -24,7 +28,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
     // Criar novo registro na coleção contacts
     const contactsRef = collection(db, 'contacts');
     await addDoc(contactsRef, {
-      shelterId: params.id,
+      shelterId: id,
       admin_contacter,
       contactedAt: serverTimestamp(), // adiciona data e hora do contato
     });

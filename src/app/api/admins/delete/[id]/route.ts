@@ -4,24 +4,21 @@ import { db } from "@/lib/firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import { checkAdminSession } from "@/lib/checkAdminSession";
 
-interface Params {
-  params: {
-    id: string;
-  };
-}
-
-export async function DELETE(request: Request, { params }: Params) {
+export async function DELETE(
+  request: Request, 
+  { params }: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
   const { authorized, response, role } = await checkAdminSession(request);
 
   if (!authorized) {
-    return response;
+    return response!;
   }
 
   if (role !== 'master') {
     return NextResponse.json({ error: "Apenas usuários master podem deletar admins." }, { status: 403 });
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   try {
     await deleteDoc(doc(db, "users", id));

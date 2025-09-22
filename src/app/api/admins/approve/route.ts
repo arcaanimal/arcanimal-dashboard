@@ -4,11 +4,11 @@ import { db } from "@/lib/firebase";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { checkAdminSession } from "@/lib/checkAdminSession";
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<NextResponse> {
   const { authorized, response } = await checkAdminSession(request);
 
   if (!authorized) {
-    return response;
+    return response!; // Usamos ! porque sabemos que response não será null quando authorized é false
   }
 
   try {

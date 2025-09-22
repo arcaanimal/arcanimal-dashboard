@@ -5,11 +5,11 @@ import { db } from '@/lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { checkAdminSession } from '@/lib/checkAdminSession'; // Importa o validador
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse> {
   // Verifica se o usuário é admin e tem sessão válida
   const { authorized, response } = await checkAdminSession(request);
   if (!authorized) {
-    return response;
+    return response!;
   }
 
   try {

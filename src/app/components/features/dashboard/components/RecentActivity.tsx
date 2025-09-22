@@ -6,7 +6,7 @@ type ActivityType = 'adoption' | 'shelter' | 'donation' | 'volunteer';
 
 // Define the structure of an activity icon
 interface ActivityIcon {
-  icon: React.ComponentType; // React component for the icon
+  icon: React.ComponentType<{ className?: string }>; // React component for the icon
   bg: string; // Tailwind classes for background and text color
 }
 

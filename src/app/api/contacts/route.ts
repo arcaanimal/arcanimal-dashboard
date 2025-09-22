@@ -3,10 +3,10 @@ import { db } from '@/lib/firebase';
 import { collection, getCountFromServer } from 'firebase/firestore';
 import { checkAdminSession } from '@/lib/checkAdminSession'; 
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse> {
   const { authorized, response } = await checkAdminSession(request);
   if (!authorized) {
-    return response;
+    return response!;
   }
 
   try {

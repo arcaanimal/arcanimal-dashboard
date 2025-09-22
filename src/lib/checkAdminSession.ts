@@ -3,7 +3,11 @@ import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { NextResponse } from 'next/server';
 
-export async function checkAdminSession(request: Request) {
+export async function checkAdminSession(request: Request): Promise<{
+  authorized: boolean;
+  response: NextResponse | null;
+  role?: string;
+}> {
   const email = request.headers.get('authorization');
 
   console.log("Email recebido no header:", email);

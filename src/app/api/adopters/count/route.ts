@@ -3,11 +3,11 @@ import { db } from '@/lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { checkAdminSession } from '@/lib/checkAdminSession'; // Importa a função de segurança
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse> {
   // Verifica se o usuário está autorizado
   const { authorized, response } = await checkAdminSession(request);
   if (!authorized) {
-    return response;
+    return response!;
   }
 
   try {

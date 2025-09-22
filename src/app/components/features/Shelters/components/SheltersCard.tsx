@@ -23,7 +23,7 @@ interface Shelter {
   status: string;
   is_contact_done: boolean;
   admin_contacter?: string; // Adiciona o campo opcional
-  lastname: string
+  lastname?: string; // Torna opcional ou remove
 }
 
 // Define props for ShelterCard

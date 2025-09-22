@@ -1,11 +1,11 @@
 import { checkAdminSession } from "@/lib/checkAdminSession";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<Response> {
   const { authorized, response, role } = await checkAdminSession(request);
 
   if (!authorized) {
-    return response;
+    return response!;
   }
 
   if (role !== "master") {
